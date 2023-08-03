@@ -25,23 +25,24 @@ const Login = () => {
   };
 
   return (
-    <div className="page LoginUser-page ">
+    <div className="page LoginUser-page  bg-success p-2 text-white bg-opacity-25">
       <div>
-        <div className="col col-LoginUser mx-auto mt-7">
+        <div className="col col-LoginUser mx-auto mt-0 ">
           <span className="login100-form-title">
             SISTEM INFORMASI MANAJEMEN INVENTARIS
           </span>
           <div className="text-center">
             <img
               src="https://tik.unsri.ac.id/img/logo.png"
-              className="header-brand-img"
-              alt=""
+              className="img-fluid  mb-4"
+              style={{ width: "300px", height: "115px" }}
+              alt="Responsive image"
             />
           </div>
         </div>
-        <div className="container-login100">
-          <div className="wrap-login100 p-0">
-            <div className="card-body">
+        <div className="container-login100 p-5">
+          <div className="wrap-login100 p-7">
+            <div className="card-body ">
               <form onSubmit={auth}>
                 {isError && <p className="has-text-centered">{message}</p>}
                 <span className="login100-form-title">Silahkan Login...</span>

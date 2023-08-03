@@ -9,8 +9,8 @@ import "./assets/css/plugins.css";
 import "./assets/css/icons.css";
 import "./assets/plugins/bootstrap/css/bootstrap.min.css";
 import axios from "axios";
-//import  "./assets/plugins/bootstrap/js/bootstrap.min.js";
-//import "./assets/plugins/bootstrap/js/popper.min.js";
+import "../src/assets/plugins/datatable/js/jquery.dataTables.min.js";
+import "../src/assets/plugins/datatable/dataTables.responsive.min.js";
 
 axios.defaults.withCredentials = true; //set difault, jika tidak harus di set manual
 

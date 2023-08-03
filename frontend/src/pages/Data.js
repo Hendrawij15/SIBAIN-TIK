@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import Layout from "./Layout.js";
-import Datalist from "../components/Datalist.js";
+import Datalist from "../components/Barang/Datalist.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSTAFF } from "../features/authenSlice.js";
-
 
 const Data = () => {
   const dispatch = useDispatch();

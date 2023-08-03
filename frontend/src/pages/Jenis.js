@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "./Layout.js";
-import Jenislist from "../components/Jenislist.js";
+import Jenislist from "../components/JenisBarang/Jenislist.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSTAFF } from "../features/authenSlice.js";

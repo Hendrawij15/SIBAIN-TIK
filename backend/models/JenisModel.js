@@ -16,7 +16,15 @@ const Jenis = db.define(
     },
     nama: {
       type: DataTypes.STRING,
-      allowNull: false, //mendefinisikan file tidak boleh kosong
+      allowNull: true, //mendefinisikan file tidak boleh kosong
+      Validate: {
+        notEmpty: true, // tidak boleh bernilai 0 dan kosong
+        len: [0, 100], //panjang nama
+      },
+    },
+    no_bmn: {
+      type: DataTypes.INTEGER,
+      allowNull: true, //mendefinisikan file tidak boleh kosong
       Validate: {
         notEmpty: true, // tidak boleh bernilai 0 dan kosong
         len: [0, 100], //panjang nama

@@ -1,5 +1,6 @@
 import Peminjaman from "../models/TransaksiModel.js";
 import User from "../models/UsersModel.js";
+import Barang from "../models/BarangModel.js";
 import { Op } from "sequelize";
 
 export const listPeminjaman = async (req, res) => {
@@ -10,9 +11,8 @@ export const listPeminjaman = async (req, res) => {
         attributes: [
           "id",
           "id_user",
-          "id_jenis",
+          "nama_peminjam",
           "id_barang",
-          "no_inventaris",
           "tanggal_peminjaman",
           "tanggal_pengembalian",
           "keterangan",
@@ -23,6 +23,10 @@ export const listPeminjaman = async (req, res) => {
             model: User,
             attributes: ["nama", "email"],
           },
+          {
+            model: Barang,
+            attributes: ["id", "nama"],
+          },
         ],
       });
     } else {
@@ -30,9 +34,8 @@ export const listPeminjaman = async (req, res) => {
         attributes: [
           "id",
           "id_user",
-          "id_jenis",
+          "nama_peminjam",
           "id_barang",
-          "no_inventaris",
           "tanggal_peminjaman",
           "tanggal_pengembalian",
           "keterangan",
@@ -42,6 +45,10 @@ export const listPeminjaman = async (req, res) => {
           {
             model: User,
             attributes: ["nama", "email"],
+          },
+          {
+            model: Barang,
+            attributes: ["id", "nama"],
           },
         ],
       });
@@ -66,9 +73,8 @@ export const getPeminjamanbyId = async (req, res) => {
         attributes: [
           "id",
           "id_user",
-          "id_jenis",
           "id_barang",
-          "no_inventaris",
+          "nama_peminjam",
           "tanggal_peminjaman",
           "tanggal_pengembalian",
           "keterangan",
@@ -80,7 +86,11 @@ export const getPeminjamanbyId = async (req, res) => {
         include: [
           {
             model: User,
-            attributes: ["name", "email"],
+            attributes: ["nama", "email"],
+          },
+          {
+            model: Barang,
+            attributes: ["nama"],
           },
         ],
       });
@@ -89,9 +99,8 @@ export const getPeminjamanbyId = async (req, res) => {
         attributes: [
           "id",
           "id_user",
-          "id_jenis",
+          "nama_peminjam",
           "id_barang",
-          "no_inventaris",
           "tanggal_peminjaman",
           "tanggal_pengembalian",
           "keterangan",
@@ -103,7 +112,11 @@ export const getPeminjamanbyId = async (req, res) => {
         include: [
           {
             model: User,
-            attributes: ["name", "email"],
+            attributes: ["nama", "email"],
+          },
+          {
+            model: Barang,
+            attributes: ["nama"],
           },
         ],
       });
@@ -115,31 +128,29 @@ export const getPeminjamanbyId = async (req, res) => {
 };
 export const tambahPeminjaman = async (req, res) => {
   const {
-    id_user,
-    id_jenis,
+    nama_peminjam,
     id_barang,
-    no_inventaris,
     tanggal_peminjaman,
     tanggal_pengembalian,
     keterangan,
-    status_peminjaman,
+    // status_peminjaman,
   } = req.body;
   try {
     await Peminjaman.create({
-      id_user: id_user,
-      id_jenis: id_jenis,
+      id_user: req.userId,
+      nama_peminjam: nama_peminjam,
       id_barang: id_barang,
-      no_inventaris: no_inventaris,
       tanggal_peminjaman: tanggal_peminjaman,
       tanggal_pengembalian: tanggal_pengembalian,
       keterangan: keterangan,
-      status_peminjaman: status_peminjaman,
+      // status_peminjaman: status_peminjaman,
     });
     res.status(201).json({ msg: "Peminjaman Barang Berhasil" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
 };
+
 export const updatePeminjaman = async (req, res) => {
   try {
     const peminjaman = await Peminjaman.findOne({
@@ -151,53 +162,33 @@ export const updatePeminjaman = async (req, res) => {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     const {
       id_user,
-      id_jenis,
+      nama_peminjam,
       id_barang,
-      no_inventaris,
       tanggal_peminjaman,
       tanggal_pengembalian,
       keterangan,
       status_peminjaman,
     } = req.body;
-    if (req.role === "admin") {
-      await Peminjaman.update(
-        {
-          id_user,
-          id_jenis,
-          id_barang,
-          no_inventaris,
-          tanggal_peminjaman,
-          tanggal_pengembalian,
-          keterangan,
-          status_peminjaman,
+    if (req.role !== "admin")
+      return res.status(500).json({ msg: "akses terlarang" });
+
+    await Peminjaman.update(
+      {
+        id_user,
+        nama_peminjam,
+        id_barang,
+        tanggal_peminjaman,
+        tanggal_pengembalian,
+        keterangan,
+        status_peminjaman,
+      },
+      {
+        where: {
+          id: peminjaman.id,
         },
-        {
-          where: {
-            id: peminjaman.id,
-          },
-        }
-      );
-    } else {
-      if (req.id_jenis !== peminjaman.id_jenis)
-        return res.status(403).json({ msg: "Akses terlarang" });
-      await Peminjaman.update(
-        {
-          id_user,
-          id_jenis,
-          id_barang,
-          no_inventaris,
-          tanggal_peminjaman,
-          tanggal_pengembalian,
-          keterangan,
-          status_peminjaman,
-        },
-        {
-          where: {
-            [Op.and]: [{ id: peminjaman.id }, { id_jenis: req.id_jenis }],
-          },
-        }
-      );
-    }
+      }
+    );
+
     res.status(200).json({ msg: "Peminjaman berhasil di Update" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -214,31 +205,33 @@ export const deletePeminjaman = async (req, res) => {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     const {
       id_user,
-      id_jenis,
+      nama_peminjam,
       id_barang,
-      no_inventaris,
       tanggal_peminjaman,
       tanggal_pengembalian,
       keterangan,
       status_peminjaman,
     } = req.body;
-    if (req.role === "admin") {
-      await Peminjaman.destroy({
-        where: {
-          id: peminjaman.id,
-        },
-      });
-    } else {
-      if (req.id_jenis !== peminjaman.id_jenis)
-        return res.status(403).json({ msg: "Akses terlarang" });
-      await Peminjaman.destroy({
-        where: {
-          [Op.and]: [{ id: peminjaman.id }, { id_jenis: req.id_jenis }],
-        },
-      });
-    }
+    if (req.role !== "admin")
+      return res.status(500).json({ msg: "akses terlarang" });
+
+    await Peminjaman.destroy({
+      where: {
+        id: peminjaman.id,
+      },
+    });
+
     res.status(200).json({ msg: "Data peminjaman telah dihapus" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
 };
+export const jumlahPinjam = async (req, res) => {
+  try {
+    const response = await Peminjaman.count();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+

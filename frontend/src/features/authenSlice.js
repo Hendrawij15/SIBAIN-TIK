@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const initialState = {
   user: null,
@@ -13,16 +14,18 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post("http://localhost:3001/", {
+      const response = await axios.post("http://localhost:3001/login", {
         email: user.email,
         Password: user.Password,
       });
       return response.data;
     } catch (error) {
-      if (error.response) {
-        const message = error.response.data.msg;
-        return thunkAPI.rejectWithValue(message);
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Akun tidak ditemukan",
+        text: "Periksa kembali username dan password anda!",
+      });
+      return thunkAPI.rejectWithValue();
     }
   }
 );

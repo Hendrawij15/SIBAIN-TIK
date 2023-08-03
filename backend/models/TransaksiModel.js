@@ -23,21 +23,14 @@ const Transaksi = db.define(
         notEmpty: true, // tidak boleh bernilai 0 dan kosong
       },
     },
-    id_jenis: {
-      type: DataTypes.INTEGER,
-      allowNull: false, //mendefinisikan file tidak boleh kosong
+    nama_peminjam: {
+      type: DataTypes.STRING,
+      allowNull: true, //mendefinisikan file tidak boleh kosong
       Validate: {
-        notEmpty: true, // tidak boleh bernilai 0 dan kosong
+        notEmpty: false, // tidak boleh bernilai 0 dan kosong
       },
     },
     id_barang: {
-      type: DataTypes.STRING,
-      allowNull: false, //mendefinisikan file tidak boleh kosong
-      Validate: {
-        notEmpty: true, // tidak boleh bernilai 0 dan kosong
-      },
-    },
-    no_inventaris: {
       type: DataTypes.STRING,
       allowNull: false, //mendefinisikan file tidak boleh kosong
       Validate: {
@@ -67,9 +60,9 @@ const Transaksi = db.define(
     },
     status_peminjaman: {
       type: DataTypes.STRING,
-      allowNull: false, //mendefinisikan file tidak boleh kosong
+      allowNull: true, //mendefinisikan file tidak boleh kosong
       Validate: {
-        notEmpty: true, // tidak boleh bernilai 0 dan kosong
+        notEmpty: false, // tidak boleh bernilai 0 dan kosong
       },
     },
   },
@@ -83,12 +76,7 @@ Users.hasMany(Transaksi, {
 Barang.hasMany(Transaksi, {
   foreignKey: "id_barang",
 });
-Transaksi.belongsTo(
-  Barang,
-  { foreignKey: "id_jenis" },
-  { foreignKey: "id_barang" },
-  { foreignKey: "no_inventaris_tik" }
-);
+Transaksi.belongsTo(Barang, { foreignKey: "id_barang" });
 Transaksi.belongsTo(Users, {
   foreignKey: "id_user",
 });

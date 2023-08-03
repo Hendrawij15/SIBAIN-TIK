@@ -9,10 +9,10 @@ const Layout = ({ children }) => {
         <div className="page-main">
           <Navbar />
           <Sidebar />
-          <div className="main-content app-content mt-0">
+          <div className="main-content app-content mt-0 ">
             <div className="side-app ">
-              <div className="main-container container-fluid">
-                <div className="mt-9">{children}</div>
+              <div className="main-container ">
+                <div className="mt-5">{children}</div>
               </div>
             </div>
           </div>
@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
         <footer class="footer bg-secondary-transparent">
           <div class="container">
             <div class="row align-items-center flex-row-reverse">
-              <div class="col-md-12 col-sm-12 text-center">
+              <div class="col-md-12 col-sm-9 text-center">
                 Copyright ©2023 <span id="year"></span>{" "}
                 <a href="javascript:void(0);">Upt-Tik-Unsri</a>. Created by{" "}
                 <a> Hendra Wijaya </a>

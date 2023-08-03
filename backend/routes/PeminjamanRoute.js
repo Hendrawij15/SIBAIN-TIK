@@ -5,6 +5,7 @@ import {
   tambahPeminjaman,
   updatePeminjaman,
   deletePeminjaman,
+  jumlahPinjam,
 } from "../controllers/Peminjaman.js";
 import { admin, verifyUser } from "../middleware/AuthUser.js";
 
@@ -12,8 +13,8 @@ const router = express.Router();
 
 router.get("/peminjaman", verifyUser, listPeminjaman);
 router.get("/peminjaman/:id", verifyUser, getPeminjamanbyId);
-router.post("/peminjaman", verifyUser, tambahPeminjaman);
-router.patch("/updatepeminjaman/:id", verifyUser, admin, updatePeminjaman);
+router.post("/pinjambarang", verifyUser, tambahPeminjaman);
+router.patch("/editpeminjaman/:id", verifyUser, admin, updatePeminjaman);
 router.delete("/deletepeminjaman/:id", verifyUser, admin, deletePeminjaman);
-
+router.get("/jumlahpinjam", verifyUser, jumlahPinjam);
 export default router;

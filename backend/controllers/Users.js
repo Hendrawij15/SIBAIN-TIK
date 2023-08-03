@@ -35,6 +35,13 @@ export const tambahUser = async (req, res) => {
       .json({ msg: "Password dan Confirm Password tidak cocok" });
   const hashPassword = await argon2.hash(Password);
   try {
+    const response = await User.findOne({
+      attributes: ["id", "nama", "email", "role"],
+      where: {
+        email: email,
+      },
+    });
+    if (response) return res.status(400).json({ msg: "user sudah ada" });
     await User.create({
       nama: nama,
       email: email,
@@ -102,5 +109,14 @@ export const deleteUser = async (req, res) => {
     res.status(200).json({ msg: "User Deleted" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
+  }
+};
+
+export const jumlahUser = async (req, res) => {
+  try {
+    const response = await User.count();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 };

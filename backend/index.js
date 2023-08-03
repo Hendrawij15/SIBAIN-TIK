@@ -17,9 +17,9 @@ const store = new sessionStore({
   db: db,
 });
 
-//(async () => {
-// await db.sync();
-//})();
+// (async () => {
+//   await db.sync();
+// })();
 
 app.use(
   session({
@@ -48,7 +48,7 @@ app.use(BarangRoute);
 app.use(PeminjamanRoute);
 app.use(AuthRoute);
 
-//store.sync(); // SINKRON TABEL KE DATABASE
+// store.sync(); // SINKRON TABEL KE DATABASE
 
 app.listen(process.env.PORT, () => {
   console.log("Server Running...");

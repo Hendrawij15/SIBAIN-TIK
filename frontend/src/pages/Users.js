@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "./Layout.js";
-import ListUser from "../components/ListUser.js";
+import ListUser from "../components/User/ListUser.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSTAFF } from "../features/authenSlice.js";

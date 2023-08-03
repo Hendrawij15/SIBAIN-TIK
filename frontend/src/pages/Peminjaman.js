@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "./Layout.js";
-import PeminjamanList from "../components/PeminjamanList.js";
+import PeminjamanList from "../components/Peminjaman/PeminjamanList.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSTAFF } from "../features/authenSlice.js";
@@ -19,7 +19,7 @@ const Peminjaman = () => {
       navigate("/");
     }
     if (user && user.role !== "admin") {
-      navigate("/dasboard");
+      navigate("/peminjamanuser");
     }
   }, [isError, user, navigate]);
   return (

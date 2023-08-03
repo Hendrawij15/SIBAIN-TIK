@@ -5,15 +5,17 @@ import {
   tambahUser,
   updateUser,
   deleteUser,
+  jumlahUser,
 } from "../controllers/Users.js";
 import { verifyUser, admin } from "../middleware/AuthUser.js";
 
 const router = express.Router();
 
-router.get("/users", verifyUser, admin, ListUser);
-router.get("/users/:id", verifyUser, admin, getUserbyId);
+router.get("/users", verifyUser, ListUser);
+router.get("/getusers/:id", verifyUser, getUserbyId);
 router.post("/tambahuser", verifyUser, admin, tambahUser);
-router.patch("/update/:id", verifyUser, admin, updateUser);
+router.patch("/updateuser/:id", verifyUser, admin, updateUser);
 router.delete("/delete/:id", verifyUser, admin, deleteUser);
+router.get("/countUser", verifyUser, jumlahUser);
 
 export default router;
